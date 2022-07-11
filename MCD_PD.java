@@ -3,6 +3,8 @@ import java.util.stream.Stream;
 
 public class MCD_PD{
 
+    static char name = 'A';
+
     public static ArrayList MatrixChainOrder(int p[]){
         int n = p.length-1;
         int m [][] = new int[n+1][n+1];
@@ -30,6 +32,17 @@ public class MCD_PD{
         arr.add(s);
 
         return arr;
+    } 
+
+    public static void PrintOptimalParent(int s[][], int i, int j){
+        if(i==j){
+            System.out.print(name++);
+        }else{
+            System.out.print("(");
+            PrintOptimalParent(s, i, s[i][j]);
+            PrintOptimalParent(s, s[i][j]+1, j);
+            System.out.print(")");
+        }
     }
 
     public static void main(String[] args) {
@@ -56,5 +69,7 @@ public class MCD_PD{
             System.out.println();
         }
        
+        PrintOptimalParent(b, 1, b.length-1);
+
     }
 }
