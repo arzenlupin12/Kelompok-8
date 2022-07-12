@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Stream;
 
 public class MCM{
 
@@ -84,6 +83,7 @@ public class MCM{
                 }
                 System.out.println();
             }
+            System.out.println();
             System.out.println("=============================================================");
             System.out.println("\nTabel K : ");
             for(Integer i = 1 ; i < b.length ; i++){
@@ -96,9 +96,11 @@ public class MCM{
                 }
                 System.out.println();
             }
+            System.out.println();
             System.out.println("=============================================================");
             System.out.print("Optimal Parent : ");
             PrintOptimalParent(b, 1, b.length-1);
+            System.out.println();
             System.out.println("=============================================================");
             in.close();
                 
