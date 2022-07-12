@@ -5,11 +5,11 @@ public class MCM{
 
     static char name = 'A';
     //Algortima Matrix Chain Multiplication
-    public static ArrayList MatrixChainOrder(int p[]){
+    public static ArrayList MatrixChainOrder(Integer p[]){
         //Inisialisasi n dan Array m,s
-        int n = p.length-1;
-        int m [][] = new int[n+1][n+1];
-        int s [][] = new int[n+1][n+1];
+        Integer n = p.length-1;
+        Integer m [][] = new Integer[n+1][n+1];
+        Integer s [][] = new Integer[n+1][n+1];
 
         //buat nilai awal matrix untuk [i,i] menjadi 0
         for(int i = 1; i <= n; i++){
@@ -19,10 +19,10 @@ public class MCM{
         //start dari 2 karena nilai 1 sudah bernilai 0
         for(int l = 2; l <= n ; l++){
             for(int i = 1; i <= n-l+1;i++){
-                int j = i+l-1;
+                Integer j = i+l-1;
                 m[i][j] = Integer.MAX_VALUE;
                 for(int k = i ; k <= j-1;k++){
-                    int q = m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j];
+                    Integer q = m[i][k] + m[k+1][j] + p[i-1] * p[k] * p[j];
                     if (q < m[i][j]){
                         m[i][j] = q;
                         s[i][j] = k;
@@ -36,7 +36,7 @@ public class MCM{
         return arr;
     } 
 
-    public static void PrintOptimalParent(int s[][], int i, int j){
+    public static void PrintOptimalParent(Integer s[][], int i, int j){
         if(i==j){
             System.out.print(name++);
         }else{
@@ -49,31 +49,62 @@ public class MCM{
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
-        System.out.println("Masukan Array p[] (Misal User Input = 5 3 8 9 19)");
-        String input = in.nextLine();
-        String splited[] = input.split(" ");
-        int[] values = Stream.of(splited).mapToInt(Integer::parseInt).toArray();
-        ArrayList <int[][]> arr2 = MatrixChainOrder(values);
-        int a[][] = arr2.get(0);
-        int b[][] = arr2.get(1);
-
-        System.out.println("\nMatrix Jumlah Perkalian : ");
-        for(int i = 1 ; i < a.length ; i++){
-            for(int j = 1; j < a[i].length ; j++){
-                System.out.print(a[i][j]+"\t");
+        Set <Integer> inputUser = new LinkedHashSet<>();
+        try{
+            System.out.print("Masukan Jumlah Matrix yang Akan Dihitung : ");
+            Integer jumlahMatrix = in.nextInt();
+            in.nextLine();
+            String input[] = new String[jumlahMatrix];  
+            for (int i = 0; i < jumlahMatrix; i++) {
+                System.out.print("Matrix ke "+(i+1)+" (Contoh Input : 30x35) :  ");               
+                String str = in.nextLine();
+                str = str.replaceAll("[a-zA-Z]", " ");
+                input[i] = str;
             }
-            System.out.println();
-        }
-        System.out.println("\nTabel K : ");
-        for(int i = 1 ; i < b.length ; i++){
-            for(int j = 1; j < b[i].length ; j++){
-                System.out.print(b[i][j]+"\t");
+            for (int i = 0; i < input.length; i++) {
+                String tmp = input[i];
+                String spliited[] = tmp.split(" ");
+                inputUser.add(Integer.parseInt(spliited[0]));
+                inputUser.add(Integer.parseInt(spliited[1]));
+            }         
+            Integer[] values = new Integer[inputUser.size()];
+            inputUser.toArray(values);
+            ArrayList <Integer[][]> arr2 = MatrixChainOrder(values);
+            Integer a[][] = arr2.get(0);
+            Integer b[][] = arr2.get(1);
+            System.out.println("=============================================================");
+            System.out.println("\nMatrix Jumlah Perkalian : ");
+            for(int i = 1 ; i < a.length ; i++){
+                for(Integer j = 1; j < a[i].length ; j++){
+                    if(a[i][j]==null){
+                        System.out.print(0+"\t");
+                    }else{
+                        System.out.print(a[i][j]+"\t");
+                    }
+                }
+                System.out.println();
             }
-            System.out.println();
-        }
+            System.out.println("=============================================================");
+            System.out.println("\nTabel K : ");
+            for(Integer i = 1 ; i < b.length ; i++){
+                for(Integer j = 1; j < b[i].length ; j++){
+                    if(b[i][j]==null){
+                        System.out.print(0+"\t");
+                    }else{
+                        System.out.print(b[i][j]+"\t");
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("=============================================================");
+            System.out.print("Optimal Parent : ");
+            PrintOptimalParent(b, 1, b.length-1);
+            System.out.println("=============================================================");
+            in.close();
+                
+        }finally{
 
-        System.out.print("Optimal Parent : ");
-        PrintOptimalParent(b, 1, b.length-1);
-        in.close();
+        }
+        
     }
 }
