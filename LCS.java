@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.print.attribute.standard.PrinterMessageFromOperator;
+
 public class LCS {
     public static void main(String[] args) {
         // String X[] = {"A","B","C","B","D","A","B"};
@@ -7,17 +9,34 @@ public class LCS {
         // LCS_Lenght(X, Y);
 
         Scanner in = new Scanner(System.in);
-        System.out.println("Input X : ");
+        System.out.print("Input X : ");
         String Input_X = in.nextLine();
-        System.out.println("Input Y : ");
+        System.out.print("Input Y : ");
         String Input_Y = in.nextLine();
         
         String X[] = Input_X.split("");
         String Y[] = Input_Y.split("");
-        LCS_Lenght(X, Y);   
+        ArrayList<String [][]> arr2 = LCS_Lenght(X, Y);
+        
+        LCS_Lenght(X, Y);  
+        Print_LCS(arr2.get(0), X, X.length, Y.length); 
     }
 
-    public static void LCS_Lenght(String InputX[], String InputY[]){
+    public static void Print_LCS(String[][] b, String[] X, int i, int j){
+        if( i==0 || j==0){
+            return;
+        }
+        if(b[i][j]=="\\"){
+            Print_LCS(b, X, i-1, j-1);
+            System.out.print(X[i-1]);
+        }else if(b[i][j]=="^"){
+            Print_LCS(b, X, i-1, j);
+        }else{
+            Print_LCS(b, X, i, j-1);
+        }
+    }
+
+    public static ArrayList LCS_Lenght(String InputX[], String InputY[]){
         int m = InputX.length;
         int n = InputY.length;
         int c[][] = new int[m+1][n+1];
@@ -45,6 +64,9 @@ public class LCS {
             }
         }
 
+        System.out.println("=============================================================================");
+        System.out.println("Tabel C : ");
+
         for(int i = 0 ; i < c.length ; i++){
             for(int j = 0; j < c[i].length ; j++){
                 System.out.print(c[i][j]+"\t");
@@ -52,12 +74,23 @@ public class LCS {
             System.out.println();
         }
 
+        System.out.println("=============================================================================");
+        System.out.println("Tabel B (Arah) : ");
         for(int i = 0 ; i < b.length; i++){
             for(int j = 0; j < b[i].length ; j++){
-                System.out.print(b[i][j]+"\t");
+                if(i==0 && j==0){
+                    System.out.print("\t");
+                }else if (b[i][j] == null) {
+                    System.out.print    ("0\t");
+                }else{
+                    System.out.print(b[i][j]+"\t");
+                }
             }
-            System.out.println();
+            System.out.println();    
         }
+        System.out.println("=============================================================================");
+        ArrayList <String[][]> arrs = new ArrayList<>();
+        arrs.add(b);
+        return arrs;
     }
-
 }
